@@ -3,217 +3,123 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stride &amp; Rotor · Shoe Catalog</title>
+<title>Ingredient Catalog</title>
 <style>
-  :root { --bg:#faf7f2; --card:#fff; --fg:#1d1b19; --muted:#6b645c; --acc:#e4572e; --line:#e6dfd5; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#161412; --card:#211e1b; --fg:#f3eee8; --muted:#a39a8f; --acc:#ff7a4f; --line:#35302b; } }
+  :root { --bg:#f4f8f5; --card:#fff; --fg:#1d2a22; --muted:#667a6e; --accent:#2f7d52; --line:#dbe7df; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#111815; --card:#1a2420; --fg:#eaf2ed; --muted:#9bb0a3; --accent:#6fd39b; --line:#2b3a32; } }
   * { box-sizing: border-box; margin: 0; }
-  body { background: var(--bg); color: var(--fg); font-family: system-ui, "Segoe UI", sans-serif; line-height: 1.5; min-height: 100vh; }
-  header { padding: 28px 16px 12px; text-align: center; }
-  header h1 { font-size: clamp(1.6rem, 5vw, 2.4rem); letter-spacing: -.02em; }
-  header h1 span { color: var(--acc); }
-  header p { color: var(--muted); margin-top: 4px; }
-  .wrap { max-width: 980px; margin: 0 auto; padding: 16px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; text-align: left;
-          cursor: pointer; font: inherit; color: inherit; transition: transform .15s, box-shadow .15s; }
-  .card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px #0002; }
-  .card .pic { font-size: 4.5rem; text-align: center; padding: 10px 0; }
-  .card h2 { font-size: 1.05rem; }
-  .card .price { color: var(--acc); font-weight: 700; margin-top: 4px; }
-  .card .tag { color: var(--muted); font-size: .85rem; }
-  .back { background: none; border: 0; color: var(--acc); font: inherit; font-weight: 600; cursor: pointer; padding: 8px 0; }
-  .detail { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
-  .top { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
-  .top .pic { font-size: 6rem; }
-  .top h2 { font-size: 1.8rem; }
-  .top .price { color: var(--acc); font-weight: 700; font-size: 1.2rem; }
-  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 14px 0; }
-  .tabs button { font: inherit; border: 1px solid var(--line); background: none; color: var(--fg); padding: 7px 14px; border-radius: 999px; cursor: pointer; }
-  .tabs button[aria-selected="true"] { background: var(--acc); border-color: var(--acc); color: #fff; }
-  .body { min-height: 110px; padding: 6px 0; font-size: 1.05rem; }
-  .body .heli { margin-top: 10px; padding: 10px 14px; border-left: 4px solid var(--acc); background: var(--bg); border-radius: 6px; }
-  .pager { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 16px; }
-  .pager button { font: inherit; border: 1px solid var(--line); background: var(--card); color: var(--fg); padding: 8px 16px; border-radius: 10px; cursor: pointer; }
-  .pager button:disabled { opacity: .4; cursor: default; }
+  body { background: var(--bg); color: var(--fg); font-family: system-ui, "Segoe UI", sans-serif; line-height: 1.65; }
+  header { text-align: center; padding: 28px 12px 10px; max-width: 760px; margin: 0 auto; border-bottom: 2px solid var(--line); }
+  header h1 { font-size: clamp(1.7rem, 5.5vw, 2.5rem); letter-spacing: -.02em; }
+  header p { color: var(--muted); font-size: .95rem; }
+  main { max-width: 760px; margin: 0 auto; padding: 22px 16px 10px; }
+  .kicker { font-weight: 700; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+  h2 { font-size: clamp(1.25rem, 4vw, 1.7rem); margin: 4px 0 14px; }
+  .sheet { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px 22px 12px; }
+  .sheet p { margin-bottom: 1em; font-size: 1.04rem; }
+  .sheet p.q { border-left: 3px solid var(--accent); padding-left: 12px; }
+  .stars { color: #e8a317; letter-spacing: 2px; }
+  .pager { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; padding: 18px 16px 8px; }
+  .pager button, .pager input { font: inherit; font-weight: 600; border: 1px solid var(--line); background: var(--card); color: var(--fg); padding: 10px 16px; border-radius: 10px; }
+  .pager button { cursor: pointer; } .pager button:disabled { opacity: .4; cursor: default; }
+  .pager input { width: 90px; text-align: center; font-weight: 400; }
   .pager span { color: var(--muted); font-variant-numeric: tabular-nums; }
-  footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 28px 16px; }
-  [hidden] { display: none !important; }
+  footer { text-align: center; padding: 6px 16px 34px; color: var(--muted); font-size: .8rem; }
 </style>
 </head>
 <body>
 <header>
-  <h1>Stride <span>&amp;</span> Rotor</h1>
-  <p>Fine footwear.</p>
+  <h1>Ingredient Catalog</h1>
+  <p>Everything you need to check, entry by entry.</p>
 </header>
-
-<div class="wrap">
-  <section id="catalog"><div class="grid" id="grid"></div></section>
-
-  <section id="detail" hidden>
-    <button class="back" id="back">← All shoes</button>
-    <div class="detail">
-      <div class="top"><div class="pic" id="dPic"></div><div><h2 id="dName"></h2><div class="price" id="dPrice"></div><div class="tag" id="dTag"></div></div></div>
-      <div class="tabs" id="tabs" role="tablist"></div>
-      <div class="body" id="body"></div>
-      <div class="pager">
-        <button id="pPrev">‹ Previous</button>
-        <span id="pInfo"></span>
-        <button id="pNext">Next ›</button>
-      </div>
-    </div>
-  </section>
+<main>
+  <div class="kicker" id="kick"></div>
+  <h2 id="title"></h2>
+  <div class="sheet" id="sheet"></div>
+</main>
+<div class="pager">
+  <button id="prev">‹ Previous</button>
+  <span id="info"></span>
+  <button id="next">Next ›</button>
+  <input id="jump" type="number" min="1" placeholder="Go to…" aria-label="Go to entry">
 </div>
+<footer>Fictional product, ingredients and reviews, made for a reading experiment. Not for sale.</footer>
 
 <script>
-const SHOES = [
-  { id: 0, emoji: "👟", name: "Cloud Runner", price: "$89", tag: "Everyday sneaker", adj: "featherlight" },
-  { id: 1, emoji: "🥾", name: "Summit Boot", price: "$139", tag: "Trail & hiking", adj: "rugged" },
-  { id: 2, emoji: "👠", name: "Velvet Heel", price: "$119", tag: "Evening wear", adj: "elegant" },
-  { id: 3, emoji: "🩴", name: "Sunny Slide", price: "$29", tag: "Beach & pool", adj: "breezy" },
-  { id: 4, emoji: "👞", name: "Oxford Classic", price: "$159", tag: "Formal leather", adj: "polished" },
-  { id: 5, emoji: "🥿", name: "Harbor Flat", price: "$65", tag: "Soft & slip-on", adj: "comfortable" },
-  { id: 6, emoji: "🩰", name: "Petal Ballet", price: "$49", tag: "Dance & studio", adj: "graceful" },
-  { id: 7, emoji: "🛼", name: "Retro Roller", price: "$99", tag: "Skate & street", adj: "bold" },
-];
-const SECTIONS = ["Description", "Materials", "Sizing", "Reviews", "Care"];
-
-// Shoe-specific sentences per section. {n} = shoe name, {a} = adjective.
-const INFO = {
-  Description: [
-    "The {n} is a {a} shoe designed for people who like to arrive in style.",
-    "Every pair of {n} is cut by hand and checked by someone who really loves shoes.",
-    "Wear the {n} to work, to dinner or to an unplanned adventure. It copes with all three.",
-    "The {n} looks {a} from the front, the side and, we are told, from above.",
-    "Our designers spent eleven months on the {n} and one afternoon choosing the color.",
-  ],
-  Materials: [
-    "The upper of the {n} is made from a breathable, {a} blend that softens with every wear.",
-    "The sole is recycled rubber with a grip pattern inspired by tree bark.",
-    "Stitching on the {n} is double-reinforced, because a shoe should outlive its owner's opinions.",
-    "The insole uses memory foam that remembers your foot better than you remember your keys.",
-    "Laces, where present, are waxed and extra long, for dramatic bows.",
-  ],
-  Sizing: [
-    "The {n} runs true to size. If you are between sizes, go up half a size.",
-    "Available in sizes 5 to 14, including half sizes, because feet are not whole numbers.",
-    "The {n} has a medium width that suits most feet, and a few opinionated ones.",
-    "Not sure of your size? Trace your foot on paper and compare it with our chart. Do this near a window.",
-    "Wear the socks you plan to wear with the {n}. Sizing is a team effort.",
-  ],
-  Reviews: [
-    "“The {n} fits like it was made for me, which it wasn't, and I'm impressed.” — Ana, 5 stars",
-    "“Walked twelve miles in my {n}. My feet are still talking to me, in a good way.” — Mark, 5 stars",
-    "“A very {a} shoe. My neighbor asked where I got them and I said 'a catalog'.” — Lola, 4 stars",
-    "“Great shoes. The box was nice too.” — Chris, 5 stars",
-    "“I bought the {n} for one wedding and have worn them to six.” — Priya, 5 stars",
-  ],
-  Care: [
-    "Wipe the {n} with a damp cloth after wear. Do not put them in a washing machine, however tempting.",
-    "Let your {n} air-dry away from direct sun. Shoes dislike sunbathing.",
-    "Rotate your shoes. The {n} appreciates a day off.",
-    "Stuff with paper when storing so they keep their {a} shape.",
-    "A little polish now and then keeps the {n} looking brand new for years.",
-  ],
-};
-
-const HELI = [
-  "By the way, we sell used helicopters.",
-  "Also, we sell used helicopters. Previous owner: one careful pilot.",
-  "Did we mention that we sell used helicopters?",
-  "Looking for something that flies? We sell used helicopters.",
-  "Fun fact: Stride & Rotor also sells used helicopters.",
-  "Used helicopters. Gently flown. Ask us about them.",
-  "Reminder: we sell used helicopters. They match most shoes.",
-  "Pair your new shoes with a used helicopter. We have several.",
-  "Yes, we sell used helicopters. No, we do not know why either.",
-  "P.S. We sell used helicopters. Some still have the new-helicopter smell.",
-  "Don't forget the used helicopters. We really do sell them.",
-  "A used helicopter and a fresh pair of shoes. That's the Stride & Rotor promise.",
-  "Our used helicopters come with one free shoehorn. Terms apply.",
-  "If you liked this page, you'll love our used helicopters.",
-  "Used helicopters, available now. Shoes also available, obviously.",
-];
-const HELI_LOUD = [
-  "WE SELL USED HELICOPTERS.",
-  "USED HELICOPTERS. WE HAVE THEM. PLEASE ASK.",
-  "Seriously, check out the used helicopters.",
-];
-
-function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a);
-  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-const hashSeed = n => { let h = 2166136261 ^ n; h = Math.imul(h ^ h >>> 16, 2246822507); h = Math.imul(h ^ h >>> 13, 3266489909); return (h ^ h >>> 16) >>> 0; };
-const pick = (r, a) => a[Math.floor(r() * a.length)];
+const TOTAL = 1594;
 const $ = id => document.getElementById(id);
-const fill = (t, s) => t.replaceAll("{n}", s.name).replaceAll("{a}", s.adj);
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const pick = (r, a) => a[Math.floor(r() * a.length)];
 
-// State: which shoe, which section, which page. The "total pages" always shows one more than the current page.
-let shoe = null, section = 0, page = 1;
+// ---- shared with the story page: must stay identical there ----
+const ING = [
+  ["Hyaluronic acid", "holds water in the skin"], ["Vitamin C", "gives a brighter look"], ["Niacinamide", "supports a smoother-looking surface"],
+  ["Ceramides", "help the skin keep its moisture"], ["Panthenol", "leaves skin feeling soft and comfortable"], ["Squalane", "adds a light, silky feel"],
+  ["Glycerin", "draws moisture into the skin"], ["Aloe vera", "gives a fresh, cooling feel"], ["Green tea extract", "adds antioxidant support"],
+  ["Vitamin E", "supports the look of healthy skin"], ["Peptides", "support a firmer-looking appearance"], ["Centella asiatica", "leaves skin feeling calm"],
+  ["Allantoin", "softens the skin's feel"], ["Shea butter", "adds comforting richness"], ["Zinc PCA", "helps skin look balanced"],
+  ["Bisabolol", "adds a gentle, soothing touch"], ["Licorice root", "helps skin look more even"], ["Ferulic acid", "pairs well with other antioxidants"],
+  ["Jojoba oil", "feels very close to the skin's own oils"], ["Rosehip oil", "adds a healthy-looking glow"], ["Urea", "keeps the skin feeling smooth"], ["Collagen", "adds a plump, bouncy look"]
+];
+const FIRST = ["Maria","Daniel","Sofia","Lucas","Emma","Mateo","Olivia","Diego","Ava","Leo","Camila","Noah","Valeria","Ethan","Isabella","Samuel","Lucia","Adrian","Mia","Gabriel","Elena","Tomas","Paula","Oscar","Julia","Marco","Nina","Victor","Clara","Ruben","Alma","Felix","Rosa","Hugo","Irene","Pablo","Laura","Ivan","Carla","Andres"];
+const LAST = ["Garcia","Lopez","Martinez","Hernandez","Smith","Johnson","Brown","Torres","Rivera","Morales","Reyes","Flores","Diaz","Cruz","Ortiz","Silva","Costa","Moreno","Vargas","Castro","Ramos","Mendoza","Rojas","Navarro","Perez","Gomez","Sanchez","Romero","Jimenez","Ruiz","Walker","Young","Allen","King","Wright","Scott","Green","Baker","Adams","Nelson"];
+function combo(n) { const r = mulberry32(n * 104729 + 3); const a = Math.floor(r() * ING.length); let b = Math.floor(r() * (ING.length - 1)); if (b >= a) b++; return [ING[a], ING[b]]; }
+function nameFor(n) { const r = mulberry32(n * 15485863 + 11); return pick(r, FIRST) + " " + pick(r, LAST); }
+// ---------------------------------------------------------------
 
-// Helicopter sentence generator, so pages 2+ never run out of new helicopter talk.
-const H_OPEN = ["We sell used helicopters.","Yes, we really do sell used helicopters.","Used helicopters are available here.","Ask about our used helicopters.","Our used helicopter section is growing.","This page, too, is about used helicopters."];
-const H_KIND = ["a red two-seater","a lightly used rescue model","a former news helicopter","a vintage 1980s classic","a bright yellow tourist helicopter","a quiet gray executive model","a slightly dramatic cargo helicopter","a one-owner training helicopter"];
-const H_DETAIL = ["It has only flown on weekends.","The previous owner kept it very clean.","It comes with a spare propeller and a small flag.","The seats are still comfortable.","It starts on the first try, most days.","It has a faint new-helicopter smell.","It has never once been near a shoe.","It was only used to go to lunch."];
-const H_CLOSE = ["Financing is not available, but enthusiasm is.","Visit us. Bring a hat.","No, there is still nothing to pay for here.","Used helicopters. That is the whole point of this page.","We could talk about shoes, but we would rather talk about helicopters.","Ask your friends about the used helicopters.","Parking for helicopters is free. Parking for shoes is not needed.","Please do not ask why. We sell used helicopters."];
+const PHRASE = [
+  "This is a very good ingredient, highly recommended and sourced from the pharmacy, and it is chosen with great care.",
+  "A really great ingredient: recommended by many, sourced from the pharmacy, and trusted in everyday skin care.",
+  "It is an excellent ingredient, recommended for daily use and sourced from the pharmacy, with a long track record.",
+  "Very good, very well liked, and sourced from the pharmacy: a recommended ingredient for any routine."
+];
+const COMMENT = [
+  "It is really cool, cheap, and it works great!",
+  "Very good and very cheap, I love it, totally recommended!",
+  "Honestly the best, nice and affordable, my skin feels amazing.",
+  "So good! Cheap, easy to use, and I can see the difference.",
+  "Great product, great price, I already bought another one.",
+  "Really nice, really cheap, and my whole family likes it."
+];
 
-function heliPage(r, p) {
-  const lines = [];
-  lines.push(pick(r, H_OPEN) + " Today we have " + pick(r, H_KIND) + ". " + pick(r, H_DETAIL));
-  lines.push(pick(r, HELI));
-  if (p > 4 && r() > .5) lines.push(pick(r, HELI_LOUD));
-  lines.push(pick(r, H_CLOSE));
-  return lines;
+function pageData(n) {
+  const r = mulberry32(n * 7919 + 17);
+  if (n <= 800) {
+    let a, b, head;
+    if (n >= 200) { [a, b] = combo(n); head = `${a[0]} + ${b[0]}`; }
+    else { a = ING[(n - 1) % ING.length]; head = a[0]; }
+    const paras = [`${pick(r, PHRASE)}`];
+    if (b) { paras.push(`${a[0]} ${a[1]}, and ${b[0]} ${b[1]}. Together they make a very good pair: ${pick(r, PHRASE).toLowerCase()}`); }
+    else { paras.push(`${a[0]} ${a[1]}. ${pick(r, PHRASE)}`); }
+    paras.push(`Verified entry for ${head}: ${pick(r, ["checked and confirmed", "confirmed again", "looks good, nothing to add", "all good here"])}.`);
+    return { kick: b ? "Ingredient combination" : "Ingredient", title: head, paras, stars: false };
+  }
+  const name = nameFor(n);
+  const paras = [`${name} says: “${pick(r, COMMENT)}”`, `Another comment from ${name}: “${pick(r, COMMENT)}”`];
+  return { kick: "Customer reviews", title: `Review by ${name}`, paras, stars: true };
 }
 
-function pageContent(s, sec, p) {
-  if (p === 1) return { info: fill(INFO[SECTIONS[sec]][s.id % INFO[SECTIONS[sec]].length], s), heli: [] };
-  const r = mulberry32(hashSeed(s.id * 100000 + sec * 10000 + p));
-  return { info: null, heli: heliPage(r, p) };
-}
-
+let page = Math.min(TOTAL, Math.max(1, parseInt(location.hash.replace(/\D/g, ""), 10) || 1));
 function draw() {
-  const c = pageContent(shoe, section, page);
-  $("body").innerHTML = "";
-  if (c.info) { const p1 = document.createElement("p"); p1.textContent = c.info; $("body").append(p1); }
-  c.heli.forEach(t => { const h = document.createElement("p"); h.className = "heli"; h.textContent = t; $("body").append(h); });
-  $("pInfo").textContent = `Page ${page} of ${page + 1}`;
-  $("pPrev").disabled = page === 1;
-  [...$("tabs").children].forEach((b, i) => b.setAttribute("aria-selected", i === section));
+  const d = pageData(page);
+  $("kick").textContent = d.kick;
+  $("title").textContent = d.title;
+  const sheet = $("sheet"); sheet.innerHTML = "";
+  if (d.stars) { const s = document.createElement("p"); s.className = "stars"; s.textContent = "★★★★★"; sheet.appendChild(s); }
+  d.paras.forEach(t => { const el = document.createElement("p"); el.className = "q"; el.textContent = t; sheet.appendChild(el); });
+  $("info").textContent = `Entry ${page}`;
+  $("prev").disabled = page === 1;
+  $("next").disabled = page === TOTAL;
+  document.title = `Ingredient Catalog · ${page}`;
+  window.scrollTo(0, 0);
 }
-
-function openShoe(id) {
-  shoe = SHOES[id]; section = 0; page = 1;
-  $("dPic").textContent = shoe.emoji; $("dName").textContent = shoe.name;
-  $("dPrice").textContent = shoe.price; $("dTag").textContent = shoe.tag;
-  $("catalog").hidden = true; $("detail").hidden = false;
-  draw(); window.scrollTo(0, 0);
-}
-function showCatalog() { $("detail").hidden = true; $("catalog").hidden = false; }
-
-// Catalog grid
-SHOES.forEach(s => {
-  const b = document.createElement("button"); b.className = "card";
-  b.innerHTML = `<div class="pic">${s.emoji}</div><h2>${s.name}</h2><div class="tag">${s.tag}</div><div class="price">${s.price}</div>`;
-  b.onclick = () => { location.hash = "#" + s.id; };
-  $("grid").appendChild(b);
-});
-// Tabs
-SECTIONS.forEach((name, i) => {
-  const b = document.createElement("button"); b.textContent = name; b.setAttribute("role", "tab");
-  b.onclick = () => { section = i; page = 1; draw(); };
-  $("tabs").appendChild(b);
-});
-$("pNext").onclick = () => { page++; draw(); };
-$("pPrev").onclick = () => { if (page > 1) { page--; draw(); } };
-$("back").onclick = () => { location.hash = ""; };
-document.addEventListener("keydown", e => {
-  if ($("detail").hidden) return;
-  if (e.key === "ArrowRight") $("pNext").click();
-  if (e.key === "ArrowLeft") $("pPrev").click();
-});
-function route() { const id = parseInt(location.hash.slice(1), 10); (id >= 0 && id < SHOES.length) ? openShoe(id) : showCatalog(); }
-addEventListener("hashchange", route);
-route();
+function go(n) { page = Math.min(TOTAL, Math.max(1, n | 0)); history.replaceState(null, "", "#" + page); draw(); }
+$("next").onclick = () => go(page + 1);
+$("prev").onclick = () => go(page - 1);
+$("jump").addEventListener("keydown", e => { if (e.key === "Enter") { go(parseInt(e.target.value, 10) || page); e.target.blur(); } e.stopPropagation(); });
+document.addEventListener("keydown", e => { if (e.key === "ArrowRight") go(page + 1); if (e.key === "ArrowLeft") go(page - 1); });
+addEventListener("hashchange", () => { page = Math.min(TOTAL, Math.max(1, parseInt(location.hash.replace(/\D/g, ""), 10) || 1)); draw(); });
+draw();
 </script>
 </body>
 </html>
